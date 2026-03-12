@@ -1,68 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Image Dehazing System</title>
+<title>Image Dehazer</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="container">
+<h1>Image Dehazer</h1>
 
-<h1>Image Dehazing System</h1>
+<div id="auth">
 
-<!-- LOGIN -->
-
-<div id="loginBox" class="card">
-
-<h2>Login</h2>
-
-<input id="loginEmail" placeholder="Email">
-<input id="loginPassword" type="password" placeholder="Password">
-
-<button onclick="login()">Login</button>
-
-<p>No account?</p>
-
-<button onclick="showSignup()">Signup</button>
-
-</div>
-
-
-<!-- SIGNUP -->
-
-<div id="signupBox" class="card hidden">
-
-<h2>Create Account</h2>
-
-<input id="username" placeholder="Username">
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-
+<h2>Signup</h2>
+<input id="su_user" placeholder="username">
+<input id="su_pass" placeholder="password">
 <button onclick="signup()">Signup</button>
 
-<button onclick="showLogin()">Back</button>
+<h2>Login</h2>
+<input id="li_user" placeholder="username">
+<input id="li_pass" placeholder="password">
+<button onclick="login()">Login</button>
 
 </div>
 
 
-<!-- DASHBOARD -->
-
-<div id="dashboard" class="card hidden">
+<div id="app" style="display:none">
 
 <h2>Upload Hazy Image</h2>
 
 <input type="file" id="image">
+<button onclick="upload()">Dehaze</button>
 
-<button onclick="uploadImage()">Upload Image</button>
+<br><br>
 
-<h3>Download History</h3>
+<img id="result" width="300">
+
+<br>
+
+<button onclick="download()">Download</button>
+
+<h2>Download History</h2>
 
 <ul id="history"></ul>
-
-<button onclick="logout()">Logout</button>
-
-</div>
 
 </div>
 
