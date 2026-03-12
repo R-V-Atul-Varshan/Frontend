@@ -1,4 +1,4 @@
-const API="https://r-v-atul-varshan.onrender.com"
+const API="https://r-v-atul-varshan.onrender.com
 
 
 function showSignup(){
@@ -25,14 +25,12 @@ let password=document.getElementById("password").value
 await fetch(API+"/signup",{
 
 method:"POST",
-
 headers:{"Content-Type":"application/json"},
-
 body:JSON.stringify({username,email,password})
 
 })
 
-alert("Account created")
+alert("Signup successful")
 
 showLogin()
 
@@ -47,22 +45,27 @@ let password=document.getElementById("loginPassword").value
 let res=await fetch(API+"/login",{
 
 method:"POST",
-
 headers:{"Content-Type":"application/json"},
-
 body:JSON.stringify({email,password})
 
 })
 
 let data=await res.json()
 
+if(data.user_id){
+
 localStorage.setItem("user_id",data.user_id)
 
 document.getElementById("loginBox").classList.add("hidden")
-
 document.getElementById("dashboard").classList.remove("hidden")
 
 loadHistory()
+
+}else{
+
+alert("Login failed")
+
+}
 
 }
 
@@ -74,10 +77,14 @@ let file=document.getElementById("image").files[0]
 let form=new FormData()
 
 form.append("image",file)
-
 form.append("user_id",localStorage.getItem("user_id"))
 
-await fetch(API+"/upload",{method:"POST",body:form})
+await fetch(API+"/upload",{
+
+method:"POST",
+body:form
+
+})
 
 alert("Image processed")
 
