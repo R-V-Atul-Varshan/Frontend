@@ -1,10 +1,9 @@
-const API = "https://r-wsuj.onrender.com";   // change to Render URL after deploy
+const API = "https://r-wsuj.onrender.com";
 
 let user = "";
 let currentImage = "";
 
-
-/* SIGNUP */
+/* ---------------- SIGNUP ---------------- */
 
 function signup(){
 
@@ -23,14 +22,16 @@ password:password
 })
 .then(res=>res.json())
 .then(data=>{
-alert("Signup Successful");
+alert(data.message);
+})
+.catch(err=>{
+alert("Signup error");
+console.log(err);
 });
 
 }
 
-
-
-/* LOGIN */
+/* ---------------- LOGIN ---------------- */
 
 function login(){
 
@@ -50,7 +51,7 @@ password:password
 .then(res=>res.json())
 .then(data=>{
 
-if(data.status === "success"){
+if(data.message === "Login success"){
 
 document.getElementById("auth").style.display="none";
 document.getElementById("app").style.display="block";
@@ -64,17 +65,24 @@ alert("Login Failed");
 
 }
 
+})
+.catch(err=>{
+alert("Login error");
+console.log(err);
 });
 
 }
 
-
-
-/* IMAGE UPLOAD */
+/* ---------------- IMAGE UPLOAD ---------------- */
 
 function upload(){
 
 const file = document.getElementById("image").files[0];
+
+if(!file){
+alert("Please select an image");
+return;
+}
 
 let form = new FormData();
 
@@ -88,30 +96,35 @@ body:form
 .then(res=>res.json())
 .then(data=>{
 
-currentImage = data.image;
+currentImage = data.download.split("/").pop();
 
 document.getElementById("result").src =
 API + "/download/" + currentImage;
 
 loadHistory();
 
+})
+.catch(err=>{
+alert("Upload failed");
+console.log(err);
 });
 
 }
 
-
-
-/* DOWNLOAD IMAGE */
+/* ---------------- DOWNLOAD IMAGE ---------------- */
 
 function download(){
 
+if(currentImage){
 window.open(API + "/download/" + currentImage);
+}
+else{
+alert("No image available");
+}
 
 }
 
-
-
-/* LOAD DOWNLOAD HISTORY */
+/* ---------------- LOAD HISTORY ---------------- */
 
 function loadHistory(){
 
@@ -121,16 +134,16 @@ fetch(API + "/history/" + user)
 
 let history = document.getElementById("history");
 
-history.innerHTML="";
+history.innerHTML = "";
 
-data.forEach(img=>{
+data.forEach(item => {
 
 let li = document.createElement("li");
 
 let link = document.createElement("a");
 
-link.href = API + "/download/" + img;
-link.innerText = img;
+link.href = API + item.download;
+link.innerText = item.output + " (" + item.date + ")";
 
 li.appendChild(link);
 
@@ -138,6 +151,10 @@ history.appendChild(li);
 
 });
 
+})
+.catch(err=>{
+console.log(err);
 });
 
 }
+
