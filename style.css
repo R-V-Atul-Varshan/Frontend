@@ -1,81 +1,37 @@
 body{
 
 font-family:Arial;
-background:linear-gradient(135deg,#4f46e5,#9333ea);
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-
-}
-
-.container{
-
 text-align:center;
+background:#f4f4f4;
 
 }
 
-.card{
+h1{
 
-background:white;
-padding:30px;
-border-radius:10px;
-width:320px;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
+background:#333;
+color:white;
+padding:15px;
 
 }
 
 input{
 
-width:100%;
-padding:10px;
-margin:10px 0;
-border-radius:6px;
-border:1px solid #ccc;
+padding:8px;
+margin:5px;
 
 }
 
 button{
 
-width:100%;
-padding:12px;
-margin-top:10px;
-background:#4f46e5;
-color:white;
-border:none;
-border-radius:6px;
+padding:8px 15px;
+margin:5px;
 cursor:pointer;
 
 }
 
-button:hover{
+img{
 
-background:#4338ca;
-
-}
-
-.hidden{
-
-display:none;
-
-}
-
-ul{
-
-list-style:none;
-padding:0;
-
-}
-
-li{
-
-margin:8px 0;
-
-}
-
-a{
-
-text-decoration:none;
-color:#4f46e5;
+border:2px solid black;
+margin-top:20px;
 
 }
