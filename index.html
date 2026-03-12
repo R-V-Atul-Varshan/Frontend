@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Image Dehazing System</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Image Dehazing System</h1>
+
+<!-- LOGIN -->
+
+<div id="loginBox" class="card">
+
+<h2>Login</h2>
+
+<input id="loginEmail" placeholder="Email">
+<input id="loginPassword" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<p>Don't have account?</p>
+
+<button onclick="showSignup()">Signup</button>
+
+</div>
+
+<!-- SIGNUP -->
+
+<div id="signupBox" class="card hidden">
+
+<h2>Create Account</h2>
+
+<input id="username" placeholder="Username">
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="signup()">Signup</button>
+
+<button onclick="showLogin()">Back to Login</button>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="card hidden">
+
+<h2>Upload Hazy Image</h2>
+
+<input type="file" id="image">
+
+<button onclick="uploadImage()">Upload</button>
+
+<h3>Your Download History</h3>
+
+<ul id="history"></ul>
+
+<button onclick="logout()">Logout</button>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
