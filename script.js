@@ -1,127 +1,143 @@
-const API="https://r-v-atul-varshan.onrender.com
+const API = "https://r-wsuj.onrender.com";   // change to Render URL after deploy
+
+let user = "";
+let currentImage = "";
 
 
-function showSignup(){
+/* SIGNUP */
 
-document.getElementById("loginBox").classList.add("hidden")
-document.getElementById("signupBox").classList.remove("hidden")
+function signup(){
 
-}
+const username = document.getElementById("su_user").value;
+const password = document.getElementById("su_pass").value;
 
-function showLogin(){
-
-document.getElementById("signupBox").classList.add("hidden")
-document.getElementById("loginBox").classList.remove("hidden")
-
-}
-
-
-async function signup(){
-
-let username=document.getElementById("username").value
-let email=document.getElementById("email").value
-let password=document.getElementById("password").value
-
-await fetch(API+"/signup",{
-
+fetch(API + "/signup",{
 method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({username,email,password})
-
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+username:username,
+password:password
 })
-
-alert("Signup successful")
-
-showLogin()
+})
+.then(res=>res.json())
+.then(data=>{
+alert("Signup Successful");
+});
 
 }
 
 
-async function login(){
 
-let email=document.getElementById("loginEmail").value
-let password=document.getElementById("loginPassword").value
+/* LOGIN */
 
-let res=await fetch(API+"/login",{
+function login(){
 
+user = document.getElementById("li_user").value;
+const password = document.getElementById("li_pass").value;
+
+fetch(API + "/login",{
 method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({email,password})
-
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+username:user,
+password:password
 })
+})
+.then(res=>res.json())
+.then(data=>{
 
-let data=await res.json()
+if(data.status === "success"){
 
-if(data.user_id){
+document.getElementById("auth").style.display="none";
+document.getElementById("app").style.display="block";
 
-localStorage.setItem("user_id",data.user_id)
+loadHistory();
 
-document.getElementById("loginBox").classList.add("hidden")
-document.getElementById("dashboard").classList.remove("hidden")
+}
+else{
 
-loadHistory()
-
-}else{
-
-alert("Login failed")
+alert("Login Failed");
 
 }
 
+});
+
 }
 
 
-async function uploadImage(){
 
-let file=document.getElementById("image").files[0]
+/* IMAGE UPLOAD */
 
-let form=new FormData()
+function upload(){
 
-form.append("image",file)
-form.append("user_id",localStorage.getItem("user_id"))
+const file = document.getElementById("image").files[0];
 
-await fetch(API+"/upload",{
+let form = new FormData();
 
+form.append("image",file);
+form.append("username",user);
+
+fetch(API + "/upload",{
 method:"POST",
 body:form
-
 })
+.then(res=>res.json())
+.then(data=>{
 
-alert("Image processed")
+currentImage = data.image;
 
-loadHistory()
+document.getElementById("result").src =
+API + "/download/" + currentImage;
+
+loadHistory();
+
+});
 
 }
 
 
-async function loadHistory(){
 
-let user=localStorage.getItem("user_id")
+/* DOWNLOAD IMAGE */
 
-let res=await fetch(API+"/history/"+user)
+function download(){
 
-let data=await res.json()
+window.open(API + "/download/" + currentImage);
 
-let list=document.getElementById("history")
+}
 
-list.innerHTML=""
+
+
+/* LOAD DOWNLOAD HISTORY */
+
+function loadHistory(){
+
+fetch(API + "/history/" + user)
+.then(res=>res.json())
+.then(data=>{
+
+let history = document.getElementById("history");
+
+history.innerHTML="";
 
 data.forEach(img=>{
 
-let li=document.createElement("li")
+let li = document.createElement("li");
 
-li.innerHTML=`<a href="${API}/download/${img}" download>${img}</a>`
+let link = document.createElement("a");
 
-list.appendChild(li)
+link.href = API + "/download/" + img;
+link.innerText = img;
 
-})
+li.appendChild(link);
 
-}
+history.appendChild(li);
 
+});
 
-function logout(){
-
-localStorage.removeItem("user_id")
-
-location.reload()
+});
 
 }
