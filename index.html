@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <title>Image Dehazer</title>
-<link rel="stylesheet" href="/style.css">
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<h1>Image Dehazer</h1>
+<div class="container">
 
-<div id="auth">
+<h1>🌫 Image Dehazer</h1>
 
-<h2>Signup</h2>
-<input id="su_user" placeholder="username">
-<input id="su_pass" placeholder="password">
+<div class="auth">
+
+<h3>Signup / Login</h3>
+
+<input id="username" placeholder="Username">
+
+<input id="password" type="password" placeholder="Password">
+
 <button onclick="signup()">Signup</button>
 
-<h2>Login</h2>
-<input id="li_user" placeholder="username">
-<input id="li_pass" placeholder="password">
 <button onclick="login()">Login</button>
 
 </div>
 
-
-<div id="app" style="display:none">
+<hr>
 
 <h2>Upload Hazy Image</h2>
 
 <input type="file" id="image">
-<button onclick="upload()">Dehaze</button>
 
-<br><br>
+<button onclick="upload()">Dehaze Image</button>
 
-<img id="result" width="300">
+<div id="result"></div>
 
-<br>
+<hr>
 
-<button onclick="download()">Download</button>
+<h2>Your History</h2>
 
-<h2>Download History</h2>
+<button onclick="loadHistory()">Load History</button>
 
-<ul id="history"></ul>
+<div id="history"></div>
 
 </div>
 
-<script src="/script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
