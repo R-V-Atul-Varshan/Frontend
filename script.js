@@ -1,160 +1,118 @@
-const API = "https://r-wsuj.onrender.com";
+const API = "https://r-v-atul-varshan.onrender.com"
 
-let user = "";
-let currentImage = "";
+let currentUser = ""
 
-/* ---------------- SIGNUP ---------------- */
 
 function signup(){
 
-const username = document.getElementById("su_user").value;
-const password = document.getElementById("su_pass").value;
+fetch(API+"/signup",{
 
-fetch(API + "/signup",{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
+
+headers:{"Content-Type":"application/json"},
+
 body:JSON.stringify({
-username:username,
-password:password
+
+username:username.value,
+
+password:password.value
+
 })
+
 })
+
 .then(res=>res.json())
-.then(data=>{
-alert(data.message);
-})
-.catch(err=>{
-alert("Signup error");
-console.log(err);
-});
+
+.then(data=>alert(data.msg))
 
 }
 
-/* ---------------- LOGIN ---------------- */
+
 
 function login(){
 
-user = document.getElementById("li_user").value;
-const password = document.getElementById("li_pass").value;
+fetch(API+"/login",{
 
-fetch(API + "/login",{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
+
+headers:{"Content-Type":"application/json"},
+
 body:JSON.stringify({
-username:user,
-password:password
+
+username:username.value,
+
+password:password.value
+
 })
+
 })
+
 .then(res=>res.json())
+
 .then(data=>{
 
-if(data.message === "Login success"){
+alert(data.msg)
 
-document.getElementById("auth").style.display="none";
-document.getElementById("app").style.display="block";
-
-loadHistory();
-
-}
-else{
-
-alert("Login Failed");
-
-}
+currentUser=username.value
 
 })
-.catch(err=>{
-alert("Login error");
-console.log(err);
-});
 
 }
 
-/* ---------------- IMAGE UPLOAD ---------------- */
+
 
 function upload(){
 
-const file = document.getElementById("image").files[0];
+let file=image.files[0]
 
-if(!file){
-alert("Please select an image");
-return;
-}
+let form=new FormData()
 
-let form = new FormData();
+form.append("image",file)
 
-form.append("image",file);
-form.append("username",user);
+form.append("username",currentUser)
 
-fetch(API + "/upload",{
+fetch(API+"/upload",{
+
 method:"POST",
+
 body:form
-})
-.then(res=>res.json())
-.then(data=>{
-
-currentImage = data.download.split("/").pop();
-
-document.getElementById("result").src =
-API + "/download/" + currentImage;
-
-loadHistory();
 
 })
-.catch(err=>{
-alert("Upload failed");
-console.log(err);
-});
+
+.then(res=>res.blob())
+
+.then(blob=>{
+
+let url=URL.createObjectURL(blob)
+
+result.innerHTML=`<img src="${url}">`
+
+})
 
 }
 
-/* ---------------- DOWNLOAD IMAGE ---------------- */
 
-function download(){
-
-if(currentImage){
-window.open(API + "/download/" + currentImage);
-}
-else{
-alert("No image available");
-}
-
-}
-
-/* ---------------- LOAD HISTORY ---------------- */
 
 function loadHistory(){
 
-fetch(API + "/history/" + user)
+fetch(API+"/history/"+currentUser)
+
 .then(res=>res.json())
+
 .then(data=>{
 
-let history = document.getElementById("history");
+history.innerHTML=""
 
-history.innerHTML = "";
+data.forEach(i=>{
 
-data.forEach(item => {
+let img=document.createElement("img")
 
-let li = document.createElement("li");
+img.src=API+"/"+i
 
-let link = document.createElement("a");
-
-link.href = API + item.download;
-link.innerText = item.output + " (" + item.date + ")";
-
-li.appendChild(link);
-
-history.appendChild(li);
-
-});
+history.appendChild(img)
 
 })
-.catch(err=>{
-console.log(err);
-});
+
+})
 
 }
-
